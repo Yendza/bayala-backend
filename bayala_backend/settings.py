@@ -14,6 +14,7 @@ SECRET_KEY = config('SECRET_KEY')
 # Modo de depuração (desativar em produção)
 DEBUG = config('DEBUG', default=False, cast=bool)
 
+
 ALLOWED_HOSTS = config('ALLOWED_HOSTS').split(',')
 
 # Nome da empresa e logo para o cabeçalho do Django Admin
@@ -82,7 +83,7 @@ CSRF_COOKIE_SECURE = not DEBUG
 
 
 # Para desenvolvimento
-CORS_ALLOW_ALL_ORIGINS = True
+CORS_ALLOW_ALL_ORIGINS = DEBUG
 
 # Configurações do URL do projeto
 ROOT_URLCONF = 'bayala_backend.urls'
@@ -134,6 +135,11 @@ AUTH_PASSWORD_VALIDATORS = [
 
 # Internacionalização e localização
 LANGUAGE_CODE = 'pt'
+TIME_ZONE = 'Africa/Maputo'
+USE_I18N = True
+USE_L10N = True
+USE_TZ = True
+
 
 LANGUAGES = [
     ('pt', 'Português'),
