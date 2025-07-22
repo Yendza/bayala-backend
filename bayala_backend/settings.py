@@ -1,17 +1,20 @@
 from pathlib import Path
 import os
 from datetime import timedelta
+from decouple import config
+import dj_database_url
+
 
 # Caminho base do projeto
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 # Chave secreta do Django (não compartilhe em produção)
-SECRET_KEY = 'django-insecure-6fa8l*nu5#*0=&t5zy=k2*f(7$+)w^y)1h_i-+af01yo4g3zw='
+SECRET_KEY = config('SECRET_KEY')
 
 # Modo de depuração (desativar em produção)
-DEBUG = True
+DEBUG = config('DEBUG', default=False, cast=bool)
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = config('ALLOWED_HOSTS').split(',')
 
 # Nome da empresa e logo para o cabeçalho do Django Admin
 ADMIN_SITE_HEADER = 'Bayala'  # Nome da empresa
@@ -64,12 +67,19 @@ MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
+
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+SECURE_SSL_REDIRECT = not DEBUG
+SESSION_COOKIE_SECURE = not DEBUG
+CSRF_COOKIE_SECURE = not DEBUG
+
 
 # Para desenvolvimento
 CORS_ALLOW_ALL_ORIGINS = True
@@ -101,14 +111,7 @@ WSGI_APPLICATION = 'bayala_backend.wsgi.application'
 
 # Configurações do banco de dados (SQLite)
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'bayala',
-        'USER': 'postgres',
-        'PASSWORD': 'Desportivo',
-        'HOST': 'localhost',
-        'PORT': '5432',
-    }
+    'default': dj_database_url.config(default=config('DATABASE_URL'))
 }
 
 
@@ -150,7 +153,9 @@ APPEND_SLASH = True
 
 # Configurações de arquivos estáticos
 STATIC_URL = '/static/'
-STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+
 
 # Configurações de arquivos de mídia
 MEDIA_URL = '/media/'

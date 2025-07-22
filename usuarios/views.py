@@ -5,7 +5,25 @@ from rest_framework.views import APIView
 from rest_framework import status
 from django.contrib.auth import authenticate
 from rest_framework_simplejwt.token_blacklist.models import BlacklistedToken, OutstandingToken
+from rest_framework_simplejwt.views import TokenObtainPairView
+from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 
+# ✅ Login com JWT e retorno de dados do usuário
+class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
+    def validate(self, attrs):
+        data = super().validate(attrs)
+        data['user'] = {
+            'id': self.user.id,
+            'username': self.user.username,
+            'email': self.user.email,
+        }
+        return data
+
+class CustomTokenObtainPairView(TokenObtainPairView):
+    serializer_class = CustomTokenObtainPairSerializer
+
+
+# ✅ Ver usuário logado (autenticado)
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
 def usuario_logado(request):
@@ -17,6 +35,7 @@ def usuario_logado(request):
     })
 
 
+# ✅ Alterar senha (exige senha atual) + invalida tokens anteriores
 class AlterarSenhaView(APIView):
     permission_classes = [IsAuthenticated]
 
@@ -35,7 +54,7 @@ class AlterarSenhaView(APIView):
         utilizador.set_password(nova_senha)
         utilizador.save()
 
-        # ✅ Blacklist todos os tokens existentes do utilizador
+        # Blacklist todos os tokens existentes do utilizador
         tokens = OutstandingToken.objects.filter(user=utilizador)
         for token in tokens:
             try:

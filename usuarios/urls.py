@@ -1,8 +1,9 @@
+# No arquivo: usuarios/urls.py
 from django.urls import path
-from .views import usuario_logado
-from .views import AlterarSenhaView
+from .views import CustomTokenObtainPairView, usuario_logado, AlterarSenhaView
 
 urlpatterns = [
-    path('usuario-logado/', usuario_logado, name='usuario-logado'),
-    path('alterar-senha/', AlterarSenhaView.as_view(), name='alterar-senha'),
+    path('token/', CustomTokenObtainPairView.as_view(), name='token_obtain_pair'),
+    path('usuario-logado/', usuario_logado, name='usuario_logado'),
+    path('alterar-senha/', AlterarSenhaView.as_view(), name='alterar_senha'),
 ]
