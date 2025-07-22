@@ -1,0 +1,13 @@
+from clientes import models
+from produtos.models import Produto
+from transaccoes.models import Transaccao
+
+
+class ItemTransaccao(models.Model):
+    transaccao = models.ForeignKey(Transaccao, on_delete=models.CASCADE, related_name='produtos')
+    produto = models.ForeignKey(Produto, on_delete=models.CASCADE)
+    quantidade = models.PositiveIntegerField()
+    tipo = models.CharField(max_length=10, choices=[('venda', 'Venda'), ('aluguer', 'Aluguer')], default='venda')
+
+    def __str__(self):
+        return f"{self.produto.nome} - {self.quantidade}"

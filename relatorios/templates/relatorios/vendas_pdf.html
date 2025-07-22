@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="pt">
+
+<head>
+    <meta charset="UTF-8" />
+    <title>Relatório de Vendas</title>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th,
+        td {
+            border: 1px solid black;
+            padding: 5px;
+            font-size: 12px;
+        }
+
+        th {
+            background-color: #eee;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Relatório de Vendas</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>ID Transação</th>
+                <th>Data</th>
+                <th>Cliente</th>
+                <th>Total</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for t in transacoes %}
+            <tr>
+                <td>{{ t.id }}</td>
+                <td>{{ t.data|date:"Y-m-d" }}</td>
+                <td>{{ t.cliente.nome }}</td>
+                <td>
+                    {% with total=0 %}
+                    {% for item in t.itens.all %}
+                    {% if item.tipo == 'venda' %}
+                    {% with total=total|add:item.produto.preco_venda|floatformat:2 %}
+                    {% endwith %}
+                    {% else %}
+                    {% with total=total|add:item.produto.preco_aluguer|floatformat:2 %}
+                    {% endwith %}
+                    {% endif %}
+                    {% endfor %}
+                    {{ total }}
+                    {% endwith %}
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+
+</html>

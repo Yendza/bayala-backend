@@ -1,0 +1,12 @@
+from clientes import models
+from produtos.models import Produto
+from cotacoes.models import Cotacao
+
+
+class ItemCotacao(models.Model):
+    cotacao = models.ForeignKey(Cotacao, on_delete=models.CASCADE, related_name='produtos')
+    produto = models.ForeignKey(Produto, on_delete=models.CASCADE)
+    quantidade = models.PositiveIntegerField()
+
+    def __str__(self):
+        return f"{self.produto.nome} - {self.quantidade}"
