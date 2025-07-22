@@ -1,0 +1,11 @@
+<!-- Exemplo de template (HTML) -->
+{% load static %}
+
+<div class="empresa-info">
+    <h1>{{ configuracao.nome_empresa }}</h1>
+    {% if configuracao.logo %}
+        <img src="{{ configuracao.logo_bayala.url }}" alt="Logo da Empresa" width="100">
+    {% else %}
+        <p>{{ configuracao.nome_empresa }} não tem logo definido.</p>
+    {% endif %}
+</div>
