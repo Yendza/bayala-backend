@@ -112,8 +112,9 @@ WSGI_APPLICATION = 'bayala_backend.wsgi.application'
 
 # Configurações do banco de dados (SQLite)
 DATABASES = {
-    'default': dj_database_url.config(default=config('DATABASE_URL'))
+    'default': dj_database_url.config(default=os.getenv('DATABASE_URL'))
 }
+
 
 
 
