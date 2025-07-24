@@ -6,8 +6,5 @@ services:
       pip install -r requirements.txt
       python manage.py migrate
       python manage.py collectstatic --noinput
-      python manage.py create_admin  # 👈 Criação automática do superusuário
+      python manage.py create_admin  # 👈 Isso cria o superusuário
     startCommand: gunicorn bayala_backend.wsgi:application
-    envVars:
-      - key: DJANGO_SETTINGS_MODULE
-        value: bayala_backend.settings
