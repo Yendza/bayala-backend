@@ -15,7 +15,7 @@ SECRET_KEY = config('SECRET_KEY')
 DEBUG = config('DEBUG', default=False, cast=bool)
 
 
-ALLOWED_HOSTS = config('ALLOWED_HOSTS').split(',')
+ALLOWED_HOSTS = ['*']
 
 # Nome da empresa e logo para o cabeçalho do Django Admin
 ADMIN_SITE_HEADER = 'Bayala'  # Nome da empresa
