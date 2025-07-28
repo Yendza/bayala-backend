@@ -3,6 +3,7 @@ from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
 from usuarios.views import usuario_logado
+from .views import restore_database
 
 from rest_framework_simplejwt.views import (
     TokenObtainPairView,
@@ -19,6 +20,7 @@ urlpatterns = [
     path('api/', include('transaccoes.urls')),
     path('api/', include('cotacoes.urls')),
     path('api/', include('usuarios.urls')),
+    path("admin/restore/", restore_database),
 
     
 
