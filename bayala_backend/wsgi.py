@@ -14,7 +14,7 @@ os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'bayala_backend.settings')
 
 application = get_wsgi_application()
 
-# Roda migrações e cria superusuário no startup (Render)
+# Roda migrações e cria/atualiza superusuário no startup (Render)
 def run_startup_tasks():
     try:
         import django
@@ -28,17 +28,28 @@ def run_startup_tasks():
         call_command('migrate', interactive=False)
         print("Migrações concluídas.")
 
-        # Criar superusuário, se não existir
+        # Criar ou atualizar superusuário
         User = get_user_model()
         username = 'Samuel'
         email = 'bayala@bayala.com'
         password = 'Bayala2025'
 
-        if not User.objects.filter(username=username).exists():
-            print("Criando superusuário admin...")
-            User.objects.create_superuser(username, email, password)
+        user, created = User.objects.get_or_create(username=username, defaults={
+            'email': email,
+            'is_superuser': True,
+            'is_staff': True,
+        })
+
+        user.set_password(password)  # Atualiza a senha mesmo se o user já existir
+        user.email = email
+        user.is_superuser = True
+        user.is_staff = True
+        user.save()
+
+        if created:
+            print("Superusuário admin criado.")
         else:
-            print("Superusuário admin já existe.")
+            print("Superusuário admin já existia. Senha atualizada.")
     except Exception as e:
         print(f"Erro durante as tarefas de inicialização: {e}")
 
