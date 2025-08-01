@@ -8,16 +8,27 @@ https://docs.djangoproject.com/en/5.2/howto/deployment/wsgi/
 """
 
 import os
-
 from django.core.wsgi import get_wsgi_application
 
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'bayala_backend.settings')
 
 application = get_wsgi_application()
 
-def create_admin_user():
+# Roda migrações e cria superusuário no startup (Render)
+def run_startup_tasks():
     try:
+        import django
+        from django.core.management import call_command
         from django.contrib.auth import get_user_model
+
+        django.setup()
+
+        # Aplicar migrações
+        print("Aplicando migrações...")
+        call_command('migrate', interactive=False)
+        print("Migrações concluídas.")
+
+        # Criar superusuário, se não existir
         User = get_user_model()
         username = 'Samuel'
         email = 'bayala@bayala.com'
@@ -29,6 +40,6 @@ def create_admin_user():
         else:
             print("Superusuário admin já existe.")
     except Exception as e:
-        print(f"Erro ao tentar criar superusuário: {e}")
+        print(f"Erro durante as tarefas de inicialização: {e}")
 
-create_admin_user()
+run_startup_tasks()
