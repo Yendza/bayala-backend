@@ -1,13 +1,13 @@
 #!/bin/bash
 
-echo "Ativando ambiente virtual..."
-source ./venv/bin/activate  # ajuste se seu virtualenv estiver em outro lugar
-
 echo "Instalando dependências..."
 pip install -r requirements.txt
 
 echo "Aplicando migrações..."
 python manage.py migrate --noinput
+
+echo "Removendo usuários duplicados..."
+python manage.py remove_duplicate_samuels
 
 echo "Coletando arquivos estáticos..."
 python manage.py collectstatic --noinput
