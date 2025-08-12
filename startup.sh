@@ -1,4 +1,11 @@
 #!/bin/bash
+
+echo "Ativando ambiente virtual..."
+source ./venv/bin/activate  # ou ./.venv/bin/activate conforme o nome da sua pasta
+
+echo "Instalando dependências..."
+pip install -r requirements.txt
+
 echo "Aplicando migrações..."
 python manage.py migrate --noinput
 
