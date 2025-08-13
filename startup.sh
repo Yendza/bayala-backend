@@ -1,12 +1,10 @@
 #!/bin/bash
 
-echo "Ativando ambiente virtual..."
-source ./venv/bin/activate  # ajuste se seu virtualenv estiver em outro caminho
-
 echo "Instalando dependências..."
 pip install -r requirements.txt
 
 echo "Aplicando migrações..."
+python manage.py makemigrations --noinput
 python manage.py migrate --noinput
 
 echo "Coletando arquivos estáticos..."
