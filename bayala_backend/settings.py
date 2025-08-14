@@ -121,6 +121,9 @@ CORS_ALLOWED_ORIGINS = [
     'http://localhost:3000',
     'http://127.0.0.1:3000',
     'https://bayalastock.vercel.app',  # Produção
+    'https://bayala-frontend-yendzas-projects.vercel.app',
+    'bayala-frontend-git-main-yendzas-projects.vercel.app',
+    'bayala-frontend-djie8qp6c-yendzas-projects.vercel.app',
 ]
 CORS_ALLOWED_ORIGIN_REGEXES = [
     r"^https:\/\/.*\.vercel\.app$",  # Previews Vercel
