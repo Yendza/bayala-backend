@@ -20,6 +20,9 @@ ALLOWED_HOSTS = [
     "localhost",
     "127.0.0.1",
     "bayalastock.vercel.app",         # Produção no Vercel
+    "https://bayala-frontend-yendzas-projects.vercel.app",
+    "bayala-frontend-git-main-yendzas-projects.vercel.app",
+    "bayala-frontend-djie8qp6c-yendzas-projects.vercel.app",
 ]
 # Aceitar qualquer subdomínio de vercel.app (previews)
 ALLOWED_HOSTS_REGEX = re.compile(r"^.*\.vercel\.app$")
