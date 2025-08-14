@@ -1,5 +1,6 @@
 from pathlib import Path
 import os
+import re
 from datetime import timedelta
 from decouple import config
 import dj_database_url
@@ -14,9 +15,16 @@ SECRET_KEY = config('SECRET_KEY')
 DEBUG = config('DEBUG', default=False, cast=bool)
 
 # Hosts permitidos
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = [
+    "bayala-backend-5.onrender.com",  # Backend no Render
+    "localhost",
+    "127.0.0.1",
+    "bayalastock.vercel.app",         # Produção no Vercel
+]
+# Aceitar qualquer subdomínio de vercel.app (previews)
+ALLOWED_HOSTS_REGEX = re.compile(r"^.*\.vercel\.app$")
 
-# Detecta se está em produção (Render ou outro serviço)
+# Detecta se está em produção
 RENDER = config('RENDER', default=False, cast=bool)
 
 # Configuração do banco de dados
@@ -70,7 +78,7 @@ INSTALLED_APPS = [
 
 # Middleware
 MIDDLEWARE = [
-    'corsheaders.middleware.CorsMiddleware',
+    'corsheaders.middleware.CorsMiddleware',  # TEM que ser o primeiro
     'django.middleware.common.CommonMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',
@@ -105,12 +113,14 @@ SESSION_COOKIE_SECURE = not DEBUG
 CSRF_COOKIE_SECURE = not DEBUG
 
 # CORS
-CORS_ALLOW_ALL_ORIGINS = DEBUG
+CORS_ALLOW_ALL_ORIGINS = DEBUG  # Só libera tudo em debug
 CORS_ALLOWED_ORIGINS = [
     'http://localhost:3000',
     'http://127.0.0.1:3000',
-    'https://bayalastock.vercel.app',
-    'http://localhost:8000',
+    'https://bayalastock.vercel.app',  # Produção
+]
+CORS_ALLOWED_ORIGIN_REGEXES = [
+    r"^https:\/\/.*\.vercel\.app$",  # Previews Vercel
 ]
 
 # Templates
