@@ -1,0 +1,14 @@
+name: Keep Backend Alive
+
+on:
+  schedule:
+    - cron: "*/14 * * * *" # roda a cada 14 minutos
+  workflow_dispatch: # permite rodar manualmente
+
+jobs:
+  ping:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Call backend
+        run: |
+          curl -s https://bayala-backend-5.onrender.com/ > /dev/null
