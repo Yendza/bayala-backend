@@ -20,7 +20,7 @@ class Transaccao(models.Model):
         ('emola', 'E-Mola'),
         ('cheque', 'Cheque'),
         ('numerario', 'Numerário'),
-        ('cartao', 'Cartão'),
+        ('transferencia', 'Transferência Bancária'),
     ]
     tipo_pagamento = models.CharField(
         max_length=20,
