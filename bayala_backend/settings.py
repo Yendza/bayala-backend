@@ -44,7 +44,11 @@ if DEBUG:
     }
 else:
     DATABASES = {
-        'default': dj_database_url.config(default=config('DATABASE_URL'))
+        'default': dj_database_url.config(
+            default=config('DATABASE_URL'),
+            conn_max_age=600,      # mantém a conexão viva
+            ssl_require=True       # força SSL no Render
+        )
     }
 
 # Logo e nome no Admin
