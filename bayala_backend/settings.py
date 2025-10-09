@@ -81,6 +81,7 @@ INSTALLED_APPS = [
     'relatorios',
     'configuracoes',
     'usuarios',
+    'core',
 ]
 
 # Middleware
