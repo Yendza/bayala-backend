@@ -1,4 +1,6 @@
-# Por enquanto vazio, ou
 from django.contrib import admin
 
-# Nenhum modelo para registrar ainda
+admin.site.site_header = "Administração do BayalaStock"
+admin.site.site_title = "Administração do BayalaStock"
+admin.site.index_title = "Painel de Gestão"
+
