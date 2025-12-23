@@ -16,6 +16,7 @@ DEBUG = config('DEBUG', default=False, cast=bool)
 
 # Hosts permitidos
 ALLOWED_HOSTS = [
+    "controller-backend25.onrender.com",
     "bayala-backend-5.onrender.com",  # Backend no Render
     "localhost",
     "127.0.0.1",
